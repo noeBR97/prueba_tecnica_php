@@ -1,0 +1,17 @@
+{
+    "name": "noelia/api-reservas",
+    "require": {
+        "twig/twig": "^3.30"
+    },
+    "autoload": {
+        "psr-4": {
+            "Noelia\\ApiReservas\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Noelia Barrionuevo",
+            "email": "noe.br97@gmail.com"
+        }
+    ]
+}
