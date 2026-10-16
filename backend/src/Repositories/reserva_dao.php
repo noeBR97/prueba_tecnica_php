@@ -51,6 +51,11 @@ class ReservaDAO {
         $stmt -> bind_param("si", $estado, $id);
         $stmt -> execute();
 
+        if ($stmt -> affected_rows === 0) {
+            $stmt -> close();
+            throw new Exception('No existe la reserva con el ID: ' . $id);
+        }
+
         self::registrarEvento($id, 'CAMBIO_ESTADO', 'La reserva ha cambiado de estado a ' . $estado);
         $stmt -> close();
     }
