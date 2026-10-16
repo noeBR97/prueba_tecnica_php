@@ -55,6 +55,36 @@ class ReservaDAO {
         $stmt -> close();
     }
 
+    public static function obtenerDetalleReserva($id): ?Reserva {
+        $conexion = Database::connect();
+        $stmt = $conexion -> prepare("SELECT id, nombre_huesped, email_huesped, nombre_alojamiento, fecha_entrada, fecha_salida, estado, importe, notas, fecha_creacion 
+                                        FROM reserva WHERE id = ?");
+        $stmt -> bind_param("i", $id);
+        $stmt -> execute();
+
+        $resultado = $stmt -> get_result();
+
+        if ($fila = $resultado -> fetch_assoc()) {
+            $stmt -> close();
+
+            return new Reserva(
+                $fila['id'],
+                $fila['nombre_huesped'],
+                $fila['email_huesped'],
+                $fila['nombre_alojamiento'],
+                $fila['fecha_entrada'],
+                $fila['fecha_salida'],
+                $fila['estado'],
+                $fila['importe'],
+                $fila['notas'],
+                $fila['fecha_creacion']
+            );
+        }
+
+        $stmt -> close();
+        return null;
+    }
+
     private static function registrarEvento($reserva_id, $tipo, $descripcion) {
         $conexion = Database::connect();
         $stmt = $conexion -> prepare("INSERT INTO reserva_evento (reserva_id, tipo, descripcion, fecha_creacion) VALUES (?, ?, ?, NOW()");
