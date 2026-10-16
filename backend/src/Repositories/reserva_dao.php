@@ -43,6 +43,18 @@ class ReservaDAO {
         return $idGenerado;
     }
 
+    public static function cambiarEstado(Reserva $reserva) {
+        $conexion = Database::connect(); 
+        $stmt = $conexion -> prepare("UPDATE reserva SET estado = ? WHERE id = ?");
+        $estado = $reserva -> estado;
+        $id = $reserva -> id;
+        $stmt -> bind_param("si", $estado, $id);
+        $stmt -> execute();
+
+        self::registrarEvento($id, 'CAMBIO_ESTADO', 'La reserva ha cambiado de estado a ' . $estado);
+        $stmt -> close();
+    }
+
     private static function registrarEvento($reserva_id, $tipo, $descripcion) {
         $conexion = Database::connect();
         $stmt = $conexion -> prepare("INSERT INTO reserva_evento (reserva_id, tipo, descripcion, fecha_creacion) VALUES (?, ?, ?, NOW()");
