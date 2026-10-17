@@ -1,34 +1,36 @@
 <?php
 
 include_once __DIR__ . '/database.php';
-include_once __DIR__ . '/../Model/reserva.php';
+include_once __DIR__ . '/../Models/reserva.php';
 
 class ReservaDAO {
     public static function crearReserva (Reserva $reserva) {
         $conexion = Database::connect();
-        $stmt = $conexion -> prepare("INSERT INTO reserva (nombre_huesped, email_huesped, nombre_alojamiento, fecha_entrada, fecha_salida, estado, importe, notas, fecha_creacion) 
-                                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $sql = "INSERT INTO reserva (nombre_huesped, email_huesped, nombre_alojamiento, fecha_entrada, fecha_salida, importe, notas) 
+                VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $stmt = $conexion -> prepare($sql);
+
+        if(!$stmt) {
+            throw new Exception('Error en la Query: ' . $conexion -> error, 500);
+        }
+
         $nombre_huesped = $reserva -> nombre_huesped;
         $email_huesped = $reserva -> email_huesped;
         $nombre_alojamiento = $reserva -> nombre_alojamiento;
         $fecha_entrada = $reserva -> fecha_entrada;
         $fecha_salida = $reserva -> fecha_salida;
-        $estado = $reserva -> estado;
         $importe = $reserva -> importe;
         $notas = $reserva -> notas;
-        $fecha_creacion = $reserva -> fecha_creacion;
 
         $stmt -> bind_param (
-            "ssssssdss",
+            "sssssds",
             $nombre_huesped,
             $email_huesped,
             $nombre_alojamiento,
             $fecha_entrada,
             $fecha_salida,
-            $estado,
             $importe,
-            $notas,
-            $fecha_creacion
+            $notas
         );
 
         $stmt -> execute();
@@ -140,7 +142,7 @@ class ReservaDAO {
 
     private static function registrarEvento($reserva_id, $tipo, $descripcion) {
         $conexion = Database::connect();
-        $stmt = $conexion -> prepare("INSERT INTO reserva_evento (reserva_id, tipo, descripcion, fecha_creacion) VALUES (?, ?, ?, NOW()");
+        $stmt = $conexion -> prepare("INSERT INTO reserva_evento (reserva_id, tipo, descripcion, fecha_creacion) VALUES (?, ?, ?, NOW())");
         $stmt -> bind_param("iss", $reserva_id, $tipo, $descripcion);
         $stmt -> execute();
         $stmt -> close();
