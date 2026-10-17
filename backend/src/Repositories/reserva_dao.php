@@ -90,6 +90,52 @@ class ReservaDAO {
         return null;
     }
 
+    public static function obtenerReservasFiltradas($estado = null, $fecha_entrada = null, $fecha_salida = null, $nombre_huesped = null): array {
+        $conexion = Database::connect();
+
+        $sql = "SELECT FROM reserva WHERE 1=1";
+        $tipos = "";
+        $parametros = [];
+
+        if (!empty($estado)) {
+            $sql .= "AND estado = ?";
+            $tipos .= "s";
+            $parametros[] = $estado;
+        }
+
+        if (!empty($fecha_entrada)) {
+            $sql .= "AND fecha_entrada >= ?";
+            $tipos .= "s";
+            $parametros[] = $fecha_entrada;
+        }
+
+        if (!empty($fecha_fin)) {
+            $sql .= "AND fecha_salida <= ?";
+            $tipos .= "s";
+            $parametros[] = $fecha_fin;
+        }
+
+        if (!empty($nombre_huesped)) {
+            $sql .= "AND nombre_huesped LIKE ?";
+            $tipos .= "s";
+            $parametros[] = "%" . $nombre_huesped . "%";
+        }
+
+        $sql .= "ORDER BY fecha_creacion DESC";
+
+        $stmt = $conexion -> prepare($sql);
+
+        if (!empty($parametros)) {
+            $stmt -> bind_param($tipos, ...$parametros);
+        }
+
+        $stmt -> execute();
+        $resultado = $stmt -> get_result();
+        $reservas = $resultado -> fetch_all(MYSQLI_ASSOC);
+        $stmt -> close();
+        return $reservas;
+    }
+
     private static function registrarEvento($reserva_id, $tipo, $descripcion) {
         $conexion = Database::connect();
         $stmt = $conexion -> prepare("INSERT INTO reserva_evento (reserva_id, tipo, descripcion, fecha_creacion) VALUES (?, ?, ?, NOW()");
