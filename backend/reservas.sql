@@ -8,7 +8,7 @@ CREATE TABLE reserva (
     estado ENUM('pendiente', 'confirmada', 'cancelada') DEFAULT 'pendiente',
     importe DECIMAL(10,2) NOT NULL,
     notas VARCHAR(200),
-    fecha_creacion DATETIME NOT NULL
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE reserva_evento (
@@ -16,6 +16,6 @@ CREATE TABLE reserva_evento (
     reserva_id INT NOT NULL,
     tipo VARCHAR(50) NOT NULL,
     descripcion VARCHAR(200) NOT NULL,
-    fecha_creacion DATETIME NOT NULL,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (reserva_id) REFERENCES reserva(id) ON DELETE CASCADE
 );

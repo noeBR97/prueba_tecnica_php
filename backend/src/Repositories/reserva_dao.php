@@ -72,18 +72,20 @@ class ReservaDAO {
         if ($fila = $resultado -> fetch_assoc()) {
             $stmt -> close();
 
-            return new Reserva(
-                $fila['id'],
+            $reserva = new Reserva(
                 $fila['nombre_huesped'],
                 $fila['email_huesped'],
                 $fila['nombre_alojamiento'],
                 $fila['fecha_entrada'],
                 $fila['fecha_salida'],
-                $fila['estado'],
                 $fila['importe'],
                 $fila['notas'],
-                $fila['fecha_creacion']
+                $fila['id']
             );
+            $reserva -> estado = $fila['estado'];
+            $reserva -> fecha_creacion = $fila['fecha_creacion'];
+
+            return $reserva;
         }
 
         $stmt -> close();
