@@ -32,4 +32,34 @@ class ControladorReserva {
 
         return ReservaDAO::crearReserva($reserva);
     }
+
+    public function obtenerReserva($id) {
+        if (!is_numeric($id) || intval($id) <= 0) {
+            throw new Exception('ID de reserva no válido.', 400);
+        }
+
+        $reserva = ReservaDAO::obtenerDetalleReserva($id);
+
+        if (!$reserva) {
+            throw new Exception('Reserva no encontrada.', 404);
+        }
+
+        return $reserva;
+    }
+
+    public function cambiarEstadoReserva($id, $nuevo_estado) {
+        if (!is_numeric($id) || intval($id) <= 0) {
+            throw new Exception('ID de reserva no válido.', 400);
+        }
+
+        if (!in_array($nuevo_estado, ['pendiente', 'confirmada', 'cancelada'])) {
+            throw new Exception('Estado no válido.', 400);
+        }
+
+        $reserva = new Reserva(null, null, null, null, null, null, null, intval($id));
+        $reserva -> estado = $nuevo_estado;
+
+        ReservaDao::cambiarEstado($reserva);
+        return true;
+    }
 }
