@@ -62,8 +62,33 @@ try {
                 ]);
                 exit;
             }
+
+            // endpoint: GET /reservas -> ver reservas filtradas o todas si no hay filtros
+            // ejemplos con los filtros:
+            // /reservas?estado=pendiente
+            // /reservas?nombre=Laura
+            // /reservas?fecha_entrada=2026-11-01&fecha_salida=2026-11-30
+            $filtros = [
+                'estado' => $_GET['estado'] ?? null,
+                'nombre_huesped' => $_GET['nombre_huesped'] ?? $_GET['nombre'] ?? null,
+                'fecha_entrada' => $_GET['fecha_entrada'] ?? null,
+                'fecha_salida' => $_GET['fecha_salida'] ?? null
+            ];
+
+            $lista_reservas = $controlador_reserva->listarReservasFiltradas($filtros);
+
+            http_response_code(200);
+            echo json_encode([
+                'total' => count($lista_reservas),
+                'reservas' => $lista_reservas
+            ]);
+            exit;
         }
     }
+
+    http_response_code(404);
+    echo json_encode(['error' => 'Ruta no encontrada o método no permitido']);
+
 } catch (Exception $e) {
     //capturamos los codigos de las excepciones en el controller
     $codigo_http = ($e -> getCode() >= 100 && $e -> getCode() < 600 ? $e -> getCode() : 500);
