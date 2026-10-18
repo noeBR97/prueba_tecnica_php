@@ -1,0 +1,140 @@
+{
+  "info": {
+    "_postman_id": "ef4e62e2-cc11-4893-8784-4c47fb23fc39",
+    "name": "Prueba técnica",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "48599476"
+  },
+  "item": [
+    {
+      "name": "Crear Reserva",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"nombre_huesped\": \"Laura Gómez\",\r\n    \"email_huesped\": \"laura.gomez@example.com\",\r\n    \"nombre_alojamiento\": \"Hotel Rural El Descanso\",\r\n    \"fecha_entrada\": \"2026-11-01\",\r\n    \"fecha_salida\": \"2026-11-05\",\r\n    \"importe\": 350.50,\r\n    \"notas\": \"Llegada prevista sobre las 18:00 h.\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8090/reserva/crear",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8090",
+          "path": [
+            "reserva",
+            "crear"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Listar reservas",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:8090/reservas?fecha_entrada=2026-11-30&fecha_salida=2026-11-01",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8090",
+          "path": [
+            "reservas"
+          ],
+          "query": [
+            {
+              "key": "estado",
+              "value": "",
+              "disabled": true
+            },
+            {
+              "key": "nombre_huesped",
+              "value": "",
+              "disabled": true
+            },
+            {
+              "key": "fecha_entrada",
+              "value": "2026-11-30"
+            },
+            {
+              "key": "fecha_salida",
+              "value": "2026-11-01"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Ver detalle reserva",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:8090/reservas/5",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8090",
+          "path": [
+            "reservas",
+            "5"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Cambiar estado",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"estado\": \"cancelada\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8090/reserva/estado/1",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8090",
+          "path": [
+            "reserva",
+            "estado",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
