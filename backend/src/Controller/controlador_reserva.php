@@ -69,6 +69,10 @@ class ControladorReserva {
         $fecha_salida = $filtros['fecha_salida'] ?? null;
         $nombre_huesped = $filtros['nombre_huesped'] ?? null;
 
+        if (!empty($fecha_entrada) && !empty($fecha_salida) && $fecha_entrada > $fecha_salida) {
+            throw new Exception('La fecha de entrada no puede ser posterior a la de salida.', 400);
+        }
+
         $reservas = ReservaDAO::obtenerReservasFiltradas($estado, $fecha_entrada, $fecha_salida, $nombre_huesped);
         return $reservas;
     }
