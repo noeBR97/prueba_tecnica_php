@@ -47,19 +47,36 @@ class ReservaDAO {
 
     public static function cambiarEstado(Reserva $reserva) {
         $conexion = Database::connect(); 
+        $id = $reserva -> id;
+        $nuevo_estado = $reserva -> estado;
+
+        //ver si existe primero y capturar su estado actual
+        $stmt_check = $conexion -> prepare("SELECT * FROM reserva WHERE id = ?");
+        $stmt_check -> bind_param("i", $id);
+        $stmt_check -> execute();
+        $resultado = $stmt_check -> get_result();
+
+        if ($resultado -> num_rows === 0) {
+            $stmt_check -> close();
+            throw new Exception('No existe la reserva con el ID: ' . $id);
+        }
+
+        $fila = $resultado -> fetch_assoc();
+        $estado_actual = $fila['estado'];
+        $stmt_check -> close();
+
+        if ($estado_actual === $nuevo_estado) {
+            return;
+        }
+
         $stmt = $conexion -> prepare("UPDATE reserva SET estado = ? WHERE id = ?");
         $estado = $reserva -> estado;
         $id = $reserva -> id;
         $stmt -> bind_param("si", $estado, $id);
         $stmt -> execute();
-
-        if ($stmt -> affected_rows === 0) {
-            $stmt -> close();
-            throw new Exception('No existe la reserva con el ID: ' . $id);
-        }
+        $stmt -> close();
 
         self::registrarEvento($id, 'CAMBIO_ESTADO', 'La reserva ha cambiado de estado a ' . $estado);
-        $stmt -> close();
     }
 
     public static function obtenerDetalleReserva($id): ?Reserva {
