@@ -62,4 +62,14 @@ class ControladorReserva {
         ReservaDao::cambiarEstado($reserva);
         return true;
     }
+
+    public function listarReservasFiltradas($filtros) {
+        $estado = $filtros['estado'] ?? null;
+        $fecha_entrada = $filtros['fecha_entrada'] ?? null;
+        $fecha_salida = $filtros['fecha_salida'] ?? null;
+        $nombre_huesped = $filtros['nombre_huesped'] ?? null;
+
+        $reservas = ReservaDAO::obtenerReservasFiltradas($estado, $fecha_entrada, $fecha_salida, $nombre_huesped);
+        return $reservas;
+    }
 }
