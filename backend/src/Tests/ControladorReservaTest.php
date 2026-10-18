@@ -21,4 +21,22 @@ class ControladorReservaTest extends TestCase {
 
         $controlador -> crearReserva($datos_erroneos);
     }
+
+    public function test_fecha_salida_anterior_a_entrada() {
+        $this -> expectException(Exception::class);
+        $this -> expectExceptionCode(400);
+
+        $controlador = new ControladorReserva();
+
+        $datos_erroneos = [
+            'nombre_huesped' => 'Ana',
+            'email_huesped' => 'ana@example.com',
+            'nombre_alojamiento' => 'Hotel Central',
+            'fecha_entrada' => '2026-11-28',
+            'fecha_salida' => '2026-11-01',
+            'importe' => 150.00
+        ];
+
+        $controlador -> crearReserva($datos_erroneos);
+    }
 }
