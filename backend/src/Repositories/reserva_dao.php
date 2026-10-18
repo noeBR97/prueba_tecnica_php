@@ -114,35 +114,35 @@ class ReservaDAO {
     public static function obtenerReservasFiltradas($estado = null, $fecha_entrada = null, $fecha_salida = null, $nombre_huesped = null): array {
         $conexion = Database::connect();
 
-        $sql = "SELECT FROM reserva WHERE 1=1";
+        $sql = "SELECT * FROM reserva WHERE 1=1";
         $tipos = "";
         $parametros = [];
 
         if (!empty($estado)) {
-            $sql .= "AND estado = ?";
+            $sql .= " AND estado = ?";
             $tipos .= "s";
             $parametros[] = $estado;
         }
 
         if (!empty($fecha_entrada)) {
-            $sql .= "AND fecha_entrada >= ?";
+            $sql .= " AND fecha_entrada >= ?";
             $tipos .= "s";
             $parametros[] = $fecha_entrada;
         }
 
-        if (!empty($fecha_fin)) {
-            $sql .= "AND fecha_salida <= ?";
+        if (!empty($fecha_salida)) {
+            $sql .= " AND fecha_salida <= ?";
             $tipos .= "s";
-            $parametros[] = $fecha_fin;
+            $parametros[] = $fecha_salida;
         }
 
         if (!empty($nombre_huesped)) {
-            $sql .= "AND nombre_huesped LIKE ?";
+            $sql .= " AND nombre_huesped LIKE ?";
             $tipos .= "s";
             $parametros[] = "%" . $nombre_huesped . "%";
         }
 
-        $sql .= "ORDER BY fecha_creacion DESC";
+        $sql .= " ORDER BY fecha_creacion DESC";
 
         $stmt = $conexion -> prepare($sql);
 
