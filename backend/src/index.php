@@ -48,6 +48,22 @@ try {
             exit;
         }
     }
+
+    if ($_SERVER["REQUEST_METHOD"] == "GET") {
+        if (isset($parametros[0]) && $parametros[0] == "reservas") {
+            // endpoint: GET /reservas/{id} -> ver detalles de una reserva
+            if (isset($parametros[1]) && is_numeric($parametros[1])) {
+                $id_reserva = intval($parametros[1]);
+                $detalle_reserva = $controlador_reserva->obtenerReserva($id_reserva);
+
+                http_response_code(200);
+                echo json_encode([
+                    'reserva' => $detalle_reserva
+                ]);
+                exit;
+            }
+        }
+    }
 } catch (Exception $e) {
     http_response_code(500);
     echo json_encode([
