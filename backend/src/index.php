@@ -65,7 +65,9 @@ try {
         }
     }
 } catch (Exception $e) {
-    http_response_code(500);
+    //capturamos los codigos de las excepciones en el controller
+    $codigo_http = ($e -> getCode() >= 100 && $e -> getCode() < 600 ? $e -> getCode() : 500);
+    http_response_code($codigo_http);
     echo json_encode([
         'error' => $e->getMessage()
     ]);
