@@ -29,6 +29,25 @@ try {
             exit;
         }
     }
+
+    if ($_SERVER["REQUEST_METHOD"] == "PUT") {
+        // endpoint: PUT /reserva/estado/{id}
+        if (isset($parametros[0]) && $parametros[0] == "reserva" && isset($parametros[1]) && $parametros[1] == "estado" && isset($parametros[2])) {
+            $id_reserva = intval($parametros[2]);
+            $datos = json_decode(file_get_contents('php://input'), true);
+            $nuevo_estado = $datos['estado'] ?? null;
+
+            $controlador_reserva->cambiarEstadoReserva($id_reserva, $nuevo_estado);
+
+            http_response_code(200);
+            echo json_encode([
+                'mensaje' => 'El estado de la reserva se ha actualizado correctamente.',
+                'id_reserva' => $id_reserva,
+                'nuevo_estado' => $nuevo_estado
+            ]);
+            exit;
+        }
+    }
 } catch (Exception $e) {
     http_response_code(500);
     echo json_encode([
