@@ -106,6 +106,16 @@ input:focus, select:focus {
     background-color: #475569;
 }
 
+.btn-danger {
+    background-color: #dc2626;
+    padding: 6px 10px;
+    font-size: 12px;
+}
+
+.btn-danger:hover {
+    background-color: #b91c1c;
+}
+
 /* tabla con scroll horizontal */
 .table-container {
     width: 100%;
@@ -159,6 +169,16 @@ th {
 
 .d-none {
     display: none !important;
+}
+
+.badge {
+    background-color: #e2e8f0;
+    color: #475569;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
 }
 
 /* responsive móvil */
