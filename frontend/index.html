@@ -22,8 +22,14 @@
                     <input type="text" id="nombre_huesped" placeholder="Nombre Huésped" required>
                     <input type="email" id="email_huesped" placeholder="Email Huésped" required>
                     <input type="text" id="nombre_alojamiento" placeholder="Nombre Alojamiento" required>
-                    <input type="date" id="fecha_entrada" placeholder="Fecha de entrada" required>
-                    <input type="date" id="fecha_salida" placeholder="Fecha de salida" required>
+                    <div>
+                        <label for="fecha_entrada">Fecha de Entrada</label>
+                        <input type="date" id="fecha_entrada" required>
+                    </div>
+                    <div>
+                        <label for="fecha_salida">Fecha de Salida</label>
+                        <input type="date" id="fecha_salida" required>
+                    </div>
                     <input type="number" step="0.01" id="importe" placeholder="Importe (€)" required>
                     <textarea id="notas" placeholder="Notas..."></textarea>
                 </div>
