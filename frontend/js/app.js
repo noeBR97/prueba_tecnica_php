@@ -72,6 +72,32 @@ async function cargarReservas(filtros = {}) {
     }
 }
 
+async function crearReservaAPI(datos) {
+    mostrarCargador(true)
+    ocultarFeedback()
+
+    try {
+        const respuesta = await fetch(`${API_URL}/reserva/crear`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(datos)
+        })
+
+        const resultado = await respuesta.json()
+
+        if (!respuesta.ok) {
+            throw new Error(`Error al procesar la reserva. ${resultado.error}`)
+        }
+
+        mostrarFeedback('Reserva creada con éxito', 'success')
+        document.getElementById('form-crear-reserva').reset()
+        cargarReservas()
+    } catch (error) {
+        mostrarFeedback(error.message, 'danger')
+    } finally {
+        mostrarCargador(false)
+    }
+}
 function renderizarTabla(reservas) {
     const tbody = document.getElementById('tabla-reservas-body')
     tbody.innerHTML = ''
