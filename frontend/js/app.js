@@ -30,6 +30,41 @@ document.addEventListener('DOMContentLoaded', () => {
         filtroFechaSalida.value = ''
         cargarReservas()
     })
+
+    //evento para rellenar el formulario y crear la reserva
+    document.getElementById('form-crear-reserva').addEventListener('submit', async (e) => {
+        e.preventDefault()
+
+        const nombreHuesped = document.getElementById('nombre_huesped').value
+        const emailHuesped = document.getElementById('email_huesped').value
+        const alojamiento = document.getElementById('nombre_alojamiento').value
+        const fechaEntrada = document.getElementById('fecha_entrada').value
+        const fechaSalida = document.getElementById('fecha_salida').value
+        const importe = parseFloat(document.getElementById('importe').value)
+        const notas = document.getElementById('notas').value
+
+        if (fechaSalida <= fechaEntrada) {
+            mostrarFeedback('La fecha de salida debe ser posterior a la fecha de entrada.', 'danger')
+            return
+        }
+
+        if (importe <= 0) {
+            mostrarFeedback('El importe debe ser mayor de cero.', 'danger')
+            return
+        }
+
+        const datosReserva = {
+            nombre_huesped: nombreHuesped,
+            email_huesped: emailHuesped,
+            nombre_alojamiento: alojamiento,
+            fecha_entrada: fechaEntrada,
+            fecha_salida: fechaSalida,
+            importe: importe,
+            notas: notas
+        }
+
+        await crearReservaAPI(datosReserva)
+    })
 })
 
 async function cargarReservas(filtros = {}) {
