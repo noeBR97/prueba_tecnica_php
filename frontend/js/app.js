@@ -133,6 +133,37 @@ async function crearReservaAPI(datos) {
         mostrarCargador(false)
     }
 }
+
+async function cancelarReserva(id) {
+    if (!confirm('¿Desea cancelar la reserva?')) {
+        return
+    }
+
+    mostrarCargador(true)
+    ocultarFeedback()
+
+    try {
+        const respuesta = await fetch(`${API_URL}/reserva/estado/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({estado: 'cancelada'})
+        })
+
+        const resultado = await respuesta.json()
+
+        if (!respuesta.ok) {
+            throw new Error(`No se pudo cancelar la reserva. ${resultado.error}`)
+        }
+
+        mostrarFeedback('Reserva cancelada correctamente', 'success')
+        cargarReservas()
+    } catch (error) {
+        mostrarFeedback(error.message, 'danger')
+    } finally {
+        mostrarCargador(false)
+    }
+}
+
 function renderizarTabla(reservas) {
     const tbody = document.getElementById('tabla-reservas-body')
     tbody.innerHTML = ''
