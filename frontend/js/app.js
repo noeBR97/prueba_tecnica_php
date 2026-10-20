@@ -1,17 +1,34 @@
 const API_URL = 'http://localhost:8090'
 
+const botonFiltro = document.getElementById('btn-filtrar')
+const botonLimpiar = document.getElementById('btn-limpiar')
+const filtroNombre = document.getElementById('filtro-nombre')
+const filtroEstado = document.getElementById('filtro-estado')
+const filtroFechaEntrada = document.getElementById('filtro-fecha-entrada')
+const filtroFechaSalida = document.getElementById('filtro-fecha-salida')
+
 document.addEventListener('DOMContentLoaded', () => {
     cargarReservas()
 
-    document.getElementById('btn-filtrar').addEventListener('click', () => {
+    //evento del botón filtrar
+    botonFiltro.addEventListener('click', () => {
         const filtros = {
-            nombre_huesped: document.getElementById('filtro-nombre').value,
-            estado: document.getElementById('filtro-estado').value,
-            fecha_entrada: document.getElementById('filtro-fecha-entrada').value,
-            fecha_salida: document.getElementById('filtro-fecha-salida').value
+            nombre_huesped: filtroNombre.value,
+            estado: filtroEstado.value,
+            fecha_entrada: filtroFechaEntrada.value,
+            fecha_salida: filtroFechaSalida.value
         }
 
         cargarReservas(filtros)
+    })
+
+    //evento del botón limpiar
+    botonLimpiar.addEventListener('click', () => {
+        filtroNombre.value = ''
+        filtroEstado.value = ''
+        filtroFechaEntrada.value = ''
+        filtroFechaSalida.value = ''
+        cargarReservas()
     })
 })
 
