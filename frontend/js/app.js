@@ -1,13 +1,13 @@
 const API_URL = 'http://localhost:8090'
 
-const botonFiltro = document.getElementById('btn-filtrar')
-const botonLimpiar = document.getElementById('btn-limpiar')
-const filtroNombre = document.getElementById('filtro-nombre')
-const filtroEstado = document.getElementById('filtro-estado')
-const filtroFechaEntrada = document.getElementById('filtro-fecha-entrada')
-const filtroFechaSalida = document.getElementById('filtro-fecha-salida')
-
 document.addEventListener('DOMContentLoaded', () => {
+    const botonFiltro = document.getElementById('btn-filtrar')
+    const botonLimpiar = document.getElementById('btn-limpiar')
+    const filtroNombre = document.getElementById('filtro-nombre')
+    const filtroEstado = document.getElementById('filtro-estado')
+    const filtroFechaEntrada = document.getElementById('filtro-fecha-entrada')
+    const filtroFechaSalida = document.getElementById('filtro-fecha-salida')
+
     cargarReservas()
 
     //evento del botón filtrar
