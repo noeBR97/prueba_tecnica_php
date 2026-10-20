@@ -22,6 +22,20 @@ document.addEventListener('DOMContentLoaded', () => {
         cargarReservas(filtros)
     })
 
+    //filtrar al pulsar enter en el campo nombre
+    filtroNombre.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault()
+            const filtros = {
+                nombre_huesped: filtroNombre.value,
+                estado: filtroEstado.value,
+                fecha_entrada: filtroFechaEntrada.value,
+                fecha_salida: filtroFechaSalida.value
+            }
+            cargarReservas(filtros)
+        }
+    })
+
     //evento del botón limpiar
     botonLimpiar.addEventListener('click', () => {
         filtroNombre.value = ''
