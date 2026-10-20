@@ -32,3 +32,24 @@ function renderizarTabla(reservas) {
         tbody.appendChild(tr)
     });
 }
+
+function mostrarCargador(visible) {
+    const spinner = document.getElementById('loading-spinner')
+    if (visible) {
+        spinner.classList.remove('d-none')
+    } else {
+        spinner.classList.add('d-none')
+    }
+}
+
+function mostrarFeedback(mensaje, tipo) {
+    const alerta = document.getElementById('feedback-alert')
+    alerta.className = `alert alert-${tipo}`
+    alerta.textContent = mensaje
+    alerta.classList.remove('d-none')
+}
+
+function ocultarFeedback() {
+    const alerta = document.getElementById('feedback-alert')
+    alerta.classList.add('d-none')
+}
